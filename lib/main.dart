@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:navegacao_roteiro/providers/montadoras.dart';
 import 'package:navegacao_roteiro/providers/veiculos.dart';
+import 'package:navegacao_roteiro/providers/login.dart';
 import 'package:navegacao_roteiro/telas/tela_cadastro_montadoras.dart';
+import 'package:navegacao_roteiro/telas/tela_login.dart';
 import 'package:navegacao_roteiro/telas/tela_cadastro_veiculos.dart';
 import 'package:navegacao_roteiro/telas/tela_form_montadora.dart';
 import 'package:navegacao_roteiro/telas/tela_form_veiculo.dart';
 import 'package:navegacao_roteiro/utils/rotas.dart';
 import 'package:provider/provider.dart';
 
-import 'telas/tela_montadora.dart';
 import 'telas/tela_veiculos.dart';
 import 'telas/tela_detalhes_veiculos.dart';
 import 'telas/tela_guias.dart';
@@ -24,31 +25,39 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => MontadorasProvider(),
-      child: ChangeNotifierProvider(
-        create: (ctx) => VeiculosProvider(),
-        child: MaterialApp(
-          theme: ThemeData(primarySwatch: Colors.green),
-          routes: {
-            Rotas.HOME: (ctx) => TelaTabulacao(),
-            Rotas.VEICULOS: (ctx) => TelaVeiculos(),
-            Rotas.DETALHES_VEICULOS: (ctx) => TelaDetalhes(),
-            Rotas.PARAMETROS: (ctx) => TelaParametros(),
-            Rotas.CAD_MONTADORAS: (ctx) => TelaCadastroMontadora(),
-            Rotas.FORM_MONTADORAS: (ctx) => TelaFormMontadora(),
-            Rotas.CAD_VEICULOS: (ctx) => TelaCadastroVeiculo(),
-            Rotas.FORM_VEICULOS: (ctx) => TelaFormVeiculo(),
-          },
-          onGenerateRoute: (settings) {
-            print(settings.name);
-            return null;
-          },
-          onUnknownRoute: (settings) {
-            print("rota nao encontrada");
-            return null;
-          },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => MontadorasProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => VeiculosProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Login(),
+        ),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(primarySwatch: Colors.green),
+        routes: {
+          Rotas.AUTH: (ctx) => TelaLogin(),
+          Rotas.HOME: (ctx) => TelaTabulacao(),
+          Rotas.VEICULOS: (ctx) => TelaVeiculos(),
+          Rotas.DETALHES_VEICULOS: (ctx) => TelaDetalhes(),
+          Rotas.PARAMETROS: (ctx) => TelaParametros(),
+          Rotas.CAD_MONTADORAS: (ctx) => TelaCadastroMontadora(),
+          Rotas.FORM_MONTADORAS: (ctx) => TelaFormMontadora(),
+          Rotas.CAD_VEICULOS: (ctx) => TelaCadastroVeiculo(),
+          Rotas.FORM_VEICULOS: (ctx) => TelaFormVeiculo(),
+        },
+        onGenerateRoute: (settings) {
+          print(settings.name);
+          return null;
+        },
+        onUnknownRoute: (settings) {
+          print("rota nao encontrada");
+          return null;
+        },
       ),
     );
   }

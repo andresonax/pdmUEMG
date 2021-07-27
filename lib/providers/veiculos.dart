@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:navegacao_roteiro/mockdata/montadoras.dart';
+
 import 'package:navegacao_roteiro/models/montadora.dart';
 import 'package:http/http.dart' as http;
 import 'package:navegacao_roteiro/models/veiculos.dart';
