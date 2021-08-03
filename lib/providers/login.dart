@@ -4,6 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Login with ChangeNotifier {
+  DateTime dataExpiracao;
+  String token;
+
+  bool get logado {
+    return (getToken != null);
+  }
+
+  String get getToken {
+    if (token != null &&
+        dataExpiracao != null &&
+        dataExpiracao.isAfter(DateTime.now())) {
+      return token;
+    } else {
+      return null;
+    }
+  }
+
   Future<void> registrar(String email, String senha) async {
     final url = Uri.https(
       'identitytoolkit.googleapis.com',
@@ -18,8 +35,14 @@ class Login with ChangeNotifier {
         "returnSecureToken": true,
       }),
     );
-    print(json.decode(resposta.body));
+    //print(json.decode(resposta.body));
     return Future.value();
+  }
+
+  void logout() {
+    token = null;
+    dataExpiracao = null;
+    notifyListeners();
   }
 
   Future<void> realizaLogin(String email, String senha) async {
@@ -38,9 +61,16 @@ class Login with ChangeNotifier {
     );
 
     final respostaAutenticacao = json.decode(resposta.body);
-    //print(respostaAutenticacao);
     if (respostaAutenticacao['error'] != null) {
       throw Exception(respostaAutenticacao['error']);
+    } else {
+      token = respostaAutenticacao['idToken'];
+      dataExpiracao = DateTime.now().add(
+        Duration(
+          seconds: int.parse(respostaAutenticacao['expiresIn']),
+        ),
+      );
+      notifyListeners();
     }
     return Future.value(json.decode(resposta.body));
   }

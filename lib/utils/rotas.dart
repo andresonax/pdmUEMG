@@ -1,5 +1,5 @@
 class Rotas {
-  static const AUTH = '/';
+  static const ESCOLHE_TELA = '/';
   static const HOME = '/home';
   static const VEICULOS = '/veiculos';
   static const DETALHES_VEICULOS = '/detalhes_veiculos';

@@ -51,7 +51,6 @@ class _CardLoginState extends State<CardLogin> {
         );
         Navigator.of(context).pushReplacementNamed(Rotas.HOME);
       } catch (e) {
-        print(e);
         showError();
       }
     } else {

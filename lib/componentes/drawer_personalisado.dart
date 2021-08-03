@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:navegacao_roteiro/providers/login.dart';
 import 'package:navegacao_roteiro/utils/rotas.dart';
+import 'package:provider/provider.dart';
 
 class DrawerPersonalisado extends StatelessWidget {
   Widget criarItem(IconData icon, String label, Function onTap) {
@@ -55,6 +57,14 @@ class DrawerPersonalisado extends StatelessWidget {
             "Cad. Montadoras",
             () => Navigator.of(context)
                 .pushReplacementNamed(Rotas.CAD_MONTADORAS),
+          ),
+          criarItem(
+            Icons.exit_to_app,
+            "Sair",
+            () {
+              Provider.of<Login>(context, listen: false).logout();
+              Navigator.of(context).pushReplacementNamed(Rotas.ESCOLHE_TELA);
+            },
           ),
         ],
       ),

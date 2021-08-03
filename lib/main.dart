@@ -3,6 +3,7 @@ import 'package:navegacao_roteiro/providers/montadoras.dart';
 import 'package:navegacao_roteiro/providers/veiculos.dart';
 import 'package:navegacao_roteiro/providers/login.dart';
 import 'package:navegacao_roteiro/telas/tela_cadastro_montadoras.dart';
+import 'package:navegacao_roteiro/telas/tela_escolhe_home.dart';
 import 'package:navegacao_roteiro/telas/tela_login.dart';
 import 'package:navegacao_roteiro/telas/tela_cadastro_veiculos.dart';
 import 'package:navegacao_roteiro/telas/tela_form_montadora.dart';
@@ -28,19 +29,21 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => MontadorasProvider(),
+          create: (ctx) => Login(),
+        ),
+        ChangeNotifierProxyProvider<Login, MontadorasProvider>(
+          create: (ctx) => MontadorasProvider('', []),
+          update: (ctx, login, montadoras) =>
+              MontadorasProvider(login.token, montadoras.getMontadoras),
         ),
         ChangeNotifierProvider(
           create: (ctx) => VeiculosProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => Login(),
         ),
       ],
       child: MaterialApp(
         theme: ThemeData(primarySwatch: Colors.green),
         routes: {
-          Rotas.AUTH: (ctx) => TelaLogin(),
+          Rotas.ESCOLHE_TELA: (ctx) => TelaEscolheHome(),
           Rotas.HOME: (ctx) => TelaTabulacao(),
           Rotas.VEICULOS: (ctx) => TelaVeiculos(),
           Rotas.DETALHES_VEICULOS: (ctx) => TelaDetalhes(),
@@ -51,11 +54,11 @@ class MyApp extends StatelessWidget {
           Rotas.FORM_VEICULOS: (ctx) => TelaFormVeiculo(),
         },
         onGenerateRoute: (settings) {
-          print(settings.name);
+          //print(settings.name);
           return null;
         },
         onUnknownRoute: (settings) {
-          print("rota nao encontrada");
+          //print("rota nao encontrada");
           return null;
         },
       ),

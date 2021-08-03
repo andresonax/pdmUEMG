@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:navegacao_roteiro/providers/montadoras.dart';
+import 'package:provider/provider.dart';
 
 import 'tela_montadora.dart';
 import 'tela_favoritos.dart';
