@@ -8,7 +8,19 @@ class TelaEscolheHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Login login = Provider.of(context, listen: false);
-    //print(login.logado);
-    return login.logado ? TelaTabulacao() : TelaLogin();
+    return FutureBuilder(
+      future: login.realizarLoginAutomatico(),
+      builder: (ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.error != null) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        } else {
+          return login.logado ? TelaTabulacao() : TelaLogin();
+        }
+      },
+    );
   }
 }

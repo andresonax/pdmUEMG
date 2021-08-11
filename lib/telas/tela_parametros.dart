@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navegacao_roteiro/componentes/drawer_personalisado.dart';
+import 'package:navegacao_roteiro/componentes/foto.dart';
 
 class TelaParametros extends StatelessWidget {
   @override
@@ -9,7 +10,11 @@ class TelaParametros extends StatelessWidget {
         title: Text('Tela de Parâmetros'),
       ),
       drawer: DrawerPersonalisado(),
-      body: Text("Parâmetros do App"),
+      body: Column(
+        children: [
+          Foto(),
+        ],
+      ),
     );
   }
 }

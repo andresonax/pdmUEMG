@@ -44,7 +44,11 @@ class MontadorasProvider with ChangeNotifier {
 
   //MÉTODO PARA ATUALIZAR MONTADORAS
   Future<void> patchMontadoras(Montadora montadora) async {
-    var url = Uri.https(Variaveis.BACKURL, '/montadoras/${montadora.id}.json');
+    var url = Uri.https(
+      Variaveis.BACKURL,
+      '/montadoras/${montadora.id}.json',
+      {'auth': token},
+    );
     http
         .patch(url,
             body: jsonEncode(
@@ -61,7 +65,11 @@ class MontadorasProvider with ChangeNotifier {
 
   //MÉTODO PARA APAGAR MONTADORAS
   Future<void> deleteMontadoras(Montadora montadora) async {
-    var url = Uri.https(Variaveis.BACKURL, '/montadoras/${montadora.id}.json');
+    var url = Uri.https(
+      Variaveis.BACKURL,
+      '/montadoras/${montadora.id}.json',
+      {'auth': token},
+    );
     http.delete((url)).then((value) {
       buscaMontadoras();
       notifyListeners();
